@@ -2,6 +2,7 @@ import util
 import cv2
 from rpi_ws281x import PixelStrip, Color
 
+
 class Matrix:
     def __init__(self, width, height, led_pin,
                  led_freq_hz=800_000, led_dma=10, led_brightness=255,
@@ -30,8 +31,8 @@ class Matrix:
         # set each pixel using the frame
         for y in range(0, self.height):
             for x in range(0, self.width):
-                self.strip.setPixelColor(self.coordinates[(x,y)],
-                                         Color(frame[x,y][0], frame[x,y][1], frame[x,y][2]))
+                self.strip.setPixelColor(self.coordinates[(x, y)],
+                                         Color(frame[x, y][0], frame[x, y][1], frame[x, y][2]))
 
         # display the changes
         self.strip.show()
