@@ -4,6 +4,8 @@ import re
 import sys
 import time
 
+import matrix
+
 import cv2
 
 """
@@ -64,7 +66,7 @@ elif os.path.isdir(args.path):
         for dir_path, dir_name, file_names in os.walk(args.path):
             video_paths.extend([f"{dir_path}/{file_name}" for file_name in file_names])
     else:
-        video_paths = [f'{os.getcwd()}{file_name}' for file_name in os.listdir(args.path)]
+        video_paths = [f'{args.path}{file_name}' for file_name in os.listdir(args.path)]
 else:
     sys.exit(f"Path '{args.path}' exists, but is not a file or directory!");
 
@@ -77,6 +79,12 @@ video_paths = [i for i in video_paths if extension_regex.match(i)]
 # confirm that we still have some videos to display
 if not video_paths:
     sys.exit(f'No supported files in search scope!')
+
+"""
+Matrix setup
+"""
+
+mat = matrix.Matrix(args.width, args.height, 18, serpentine=True)
 
 """
 Translate the Videos
@@ -97,7 +105,7 @@ while True:
         source_ms_per_frame = int(1000.0 / framerate)
         real_ms_per_frame = max(int(1000.0 / args.fps), source_ms_per_frame)
         if args.debug:
-            print(f"[[{video_path}]]: Source Framerate:{framerate}fps // Limiter:{args.fps}fps // Actual Framerate:{int((1/real_ms_per_frame)*1000.0)}fps")
+            print(f"[DEBUG][{video_path}]: Source Framerate:{framerate}fps // Limiter:{args.fps}fps // Real Framerate:{int((1/real_ms_per_frame)*1000.0)}fps")
 
         # set the initial times
         time_at_last_frame_fetch = time.time_ns()
@@ -132,8 +140,8 @@ while True:
                 # resize the frame
                 img = cv2.resize(frame, (args.width, args.height))
 
-                # display the frame (for testing purposes)
-                cv2.imshow("win", img)
+                # display the frame on the matrix
+                mat.display(frame)
 
                 # wait for cv2
                 cv2.waitKey(1)
