@@ -138,7 +138,7 @@ while True:
                 time_at_last_frame_used = time.time_ns()
 
                 # resize the frame
-                img = cv2.resize(frame, (args.height, args.width))
+                img = cv2.resize(frame, (args.width, args.height))
 
                 # display the frame on the matrix
                 mat.display(img)
