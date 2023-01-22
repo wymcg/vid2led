@@ -138,10 +138,10 @@ while True:
                 time_at_last_frame_used = time.time_ns()
 
                 # resize the frame
-                img = cv2.resize(frame, (args.width, args.height))
+                img = cv2.resize(frame, (args.height, args.width))
 
                 # display the frame on the matrix
-                mat.display(frame)
+                mat.display(img)
 
                 # wait for cv2
                 cv2.waitKey(1)
