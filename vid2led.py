@@ -59,7 +59,7 @@ if not os.path.exists(args.path):
 # check if the path is a dir or a file and handle accordingly
 if os.path.isfile(args.path):
     # the path is a file, just add it to the list of paths
-    video_paths.append(f'{os.getcwd()}{args.path}')
+    video_paths.append(f'{args.path}')
 elif os.path.isdir(args.path):
     # the path is a directory, add all files within this directory to the list of paths
     if args.recursive:
