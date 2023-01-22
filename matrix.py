@@ -5,16 +5,18 @@ from rpi_ws281x import PixelStrip, Color
 
 class Matrix:
     def __init__(self, width, height, led_pin,
+                 serpentine=False, vertical=False,
                  led_freq_hz=800_000, led_dma=10, led_brightness=255,
-                 led_invert=False, led_channel=0, serpentine=False,
-                 led_strip_type=None):
+                 led_invert=False, led_channel=0, led_strip_type=None):
         # setup some vars
         self.width = width
         self.height = height
         self.serpentine = serpentine
+        self.vertical = vertical
 
         # make the coordinate table
-        self.coordinates = util.generate_coordinate_table(width, height, serpentine)
+        self.coordinates = util.generate_coordinate_table(width, height,
+                                                          serpentine=self.serpentine, vertical=self.vertical)
 
         # setup the led strip
         self.strip = PixelStrip(self.width * self.height,

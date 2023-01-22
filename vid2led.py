@@ -41,6 +41,12 @@ parser.add_argument('-f', '--fps',
                     type=float,
                     help='Set FPS limiter',
                     default=60.0)
+parser.add_argument('-s', '--serpentine',
+                    action='store_true',
+                    help='Specify that the matrix is serpentine')
+parser.add_argument('-t', '--vertical',
+                    action='store_true',
+                    help='Specify that the matrix is wired vertically rather than horizontally')
 
 # parse the arguments
 args = parser.parse_args()
@@ -84,7 +90,7 @@ if not video_paths:
 Matrix setup
 """
 
-mat = matrix.Matrix(args.width, args.height, 18, serpentine=True)
+mat = matrix.Matrix(args.width, args.height, 18, serpentine=args.serpentine, vertical=args.vertical)
 
 """
 Translate the Videos
