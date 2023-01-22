@@ -32,7 +32,7 @@ class Matrix:
         for y in range(0, self.height):
             for x in range(0, self.width):
                 self.strip.setPixelColor(self.coordinates[(x, y)],  # get target led from table
-                                         Color(int(frame[x, y][0]), int(frame[x, y][1]), int(frame[x, y][2])))  # get color from frame
+                                         Color(int(frame[x, y][2]), int(frame[x, y][1]), int(frame[x, y][0])))  # get color from frame
 
         # display the changes
         self.strip.show()
