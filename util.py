@@ -1,6 +1,10 @@
+import io
+
 """
 Make a coordinate table for a matrix
 """
+
+
 def generate_coordinate_table(width, height, serpentine=False, vertical=False):
     table = {}
 
@@ -32,3 +36,17 @@ def generate_coordinate_table(width, height, serpentine=False, vertical=False):
                     table[(x, y)] = (x * height) + (height - y - 1)
 
     return table
+
+
+"""
+Detect if the code is running on a Raspberry Pi
+
+Taken from https://raspberrypi.stackexchange.com/questions/5100/detect-that-a-python-program-is-running-on-the-pi
+"""
+def is_raspberrypi():
+    try:
+        with io.open('/sys/firmware/devicetree/base/model', 'r') as m:
+            if 'raspberry pi' in m.read().lower(): return True
+    except Exception:
+        pass
+    return False
