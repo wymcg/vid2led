@@ -15,8 +15,8 @@ class Matrix:
         self.serpentine = serpentine
         self.vertical = vertical
 
-        # is this a simulated matrix (if specified or run on a non-rpi platform)?
-        self.simulated = simulated or not util.is_raspberrypi()
+        # is this a simulated matrix?
+        self.simulated = simulated
 
         # the size of the output frame if this is simulated
         self.simulation_size = (self.width * simulation_magnifier, self.height * simulation_magnifier)

@@ -8,6 +8,8 @@ import matrix
 
 import cv2
 
+import util
+
 """
 Get Command Line Arguments
 """
@@ -51,6 +53,9 @@ parser.add_argument('-p', '--gpio-pin',
                     type=int,
                     default=18,
                     help='Specify the GPIO pin to use to drive the matrix')
+parser.add_argument('--force-simulation',
+                    action='store_true',
+                    help='Force the system to simulate the matrix')
 
 # parse the arguments
 args = parser.parse_args()
@@ -93,7 +98,9 @@ if not video_paths:
 """
 Matrix setup
 """
-mat = matrix.Matrix(args.width, args.height, args.gpio_pin, serpentine=args.serpentine, vertical=args.vertical)
+mat = matrix.Matrix(args.width, args.height, args.gpio_pin,
+                    serpentine=args.serpentine, vertical=args.vertical,
+                    simulated=args.force_simulation or not util.is_raspberrypi())
 
 """
 Translate the Videos
