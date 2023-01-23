@@ -4,11 +4,8 @@ import re
 import sys
 import time
 import traceback
-
 import matrix
-
 import cv2
-
 import util
 
 
@@ -59,6 +56,10 @@ def vid2led():
     parser.add_argument('--force-simulation',
                         action='store_true',
                         help='Force the system to simulate the matrix')
+    parser.add_argument('--simulation-magnification',
+                        type=int,
+                        default=10,
+                        help='Change the amount that the matrix simulation is magnified')
 
     # parse the arguments
     args = parser.parse_args()
@@ -103,7 +104,8 @@ def vid2led():
     """
     mat = matrix.Matrix(args.width, args.height, args.gpio_pin,
                         serpentine=args.serpentine, vertical=args.vertical,
-                        simulated=args.force_simulation or not util.is_raspberrypi())
+                        simulated=args.force_simulation or not util.is_raspberrypi(),
+                        simulation_magnifier=args.simulation_magnification)
 
     """
     Translate the Videos
@@ -184,12 +186,13 @@ def main():
     try:
         vid2led()
     except KeyboardInterrupt:
-        print("Quitting vid2led...", sep='')
+        print("Quitting vid2led...", end='')
         cv2.destroyAllWindows()
         print("done.")
     except Exception:
         traceback.print_exc(file=sys.stdout)
     sys.exit(0)
+
 
 if __name__ == "__main__":
     main()
