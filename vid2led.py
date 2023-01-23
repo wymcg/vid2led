@@ -47,6 +47,10 @@ parser.add_argument('-s', '--serpentine',
 parser.add_argument('-t', '--vertical',
                     action='store_true',
                     help='Specify that the matrix is wired vertically rather than horizontally')
+parser.add_argument('-p', '--gpio-pin',
+                    type=int,
+                    default=18,
+                    help='Specify the GPIO pin to use to drive the matrix')
 
 # parse the arguments
 args = parser.parse_args()
@@ -89,8 +93,7 @@ if not video_paths:
 """
 Matrix setup
 """
-
-mat = matrix.Matrix(args.width, args.height, 18, serpentine=args.serpentine, vertical=args.vertical)
+mat = matrix.Matrix(args.width, args.height, args.gpio_pin, serpentine=args.serpentine, vertical=args.vertical)
 
 """
 Translate the Videos
