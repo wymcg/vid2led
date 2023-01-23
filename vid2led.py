@@ -179,7 +179,11 @@ def vid2led():
 
         # get out of the loop if the user didn't set "--loop"
         if not args.loop:
+            mat.clear()
             break
+
+    # clear the matrix
+    mat.clear()
 
 
 def main():
