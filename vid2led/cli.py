@@ -109,7 +109,7 @@ def main():
                         serpentine=args.serpentine, vertical=args.vertical,
                         simulated=args.force_simulation or not util.is_raspberrypi(),
                         simulation_magnifier=args.simulation_magnification,
-                        led_brightness=args.brightness)
+                        led_brightness=int((args.brightness/100)*255))
 
     """
     Translate the Videos
