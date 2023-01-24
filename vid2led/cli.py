@@ -52,8 +52,9 @@ def main():
                         default=18,
                         help='Specify the GPIO pin to use to drive the matrix')
     parser.add_argument('-b', '--brightness',
-                        type=int,
+                        type=float,
                         choices=range(0, 101),
+                        default=100,
                         metavar='[0-100]',
                         help='LED Brightness level, as a percentage')
     parser.add_argument('--force-simulation',
