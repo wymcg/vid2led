@@ -53,6 +53,11 @@ def vid2led():
                         type=int,
                         default=18,
                         help='Specify the GPIO pin to use to drive the matrix')
+    parser.add_argument('-b', '--brightness',
+                        type=int,
+                        choices=range(0, 101),
+                        metavar='[0-100]',
+                        help='LED Brightness level, as a percentage')
     parser.add_argument('--force-simulation',
                         action='store_true',
                         help='Force the system to simulate the matrix')
@@ -105,7 +110,8 @@ def vid2led():
     mat = matrix.Matrix(args.width, args.height, args.gpio_pin,
                         serpentine=args.serpentine, vertical=args.vertical,
                         simulated=args.force_simulation or not util.is_raspberrypi(),
-                        simulation_magnifier=args.simulation_magnification)
+                        simulation_magnifier=args.simulation_magnification,
+                        led_brightness=args.brightness)
 
     """
     Translate the Videos
