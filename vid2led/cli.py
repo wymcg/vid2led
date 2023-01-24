@@ -13,9 +13,7 @@ def main():
     """
 
     # make the parser
-    parser = argparse.ArgumentParser(
-        prog="python -m vid2led"
-    )
+    parser = argparse.ArgumentParser()
 
     # add some arguments
     parser.add_argument('path',
