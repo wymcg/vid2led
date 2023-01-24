@@ -1,4 +1,4 @@
-import util
+from vid2led import util
 import cv2
 from rpi_ws281x import PixelStrip, Color
 
