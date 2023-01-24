@@ -3,5 +3,5 @@ name="vid2led"
 version="0.1.0"
 dependencies=[
     "opencv-python",
-    "rpi-ws281x-mock"
+    "rpi-ws281x"
 ]
