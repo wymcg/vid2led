@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name="vid2led"
+version="0.1.2"
+dependencies=[
+    "opencv-python",
+    "rpi-ws281x"
+]
+
+[project.scripts]
+vid2led="vid2led.cli:main"

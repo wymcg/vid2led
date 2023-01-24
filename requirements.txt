@@ -1,2 +1,0 @@
-opencv-python~=4.7.0.68
-rpi_ws281x~=4.3.4

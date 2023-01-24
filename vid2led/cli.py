@@ -3,13 +3,11 @@ import os.path
 import re
 import sys
 import time
-import traceback
-import matrix
 import cv2
-import util
 
+from vid2led import matrix, util
 
-def vid2led():
+def main():
     """
     Get Command Line Arguments
     """
@@ -54,8 +52,9 @@ def vid2led():
                         default=18,
                         help='Specify the GPIO pin to use to drive the matrix')
     parser.add_argument('-b', '--brightness',
-                        type=int,
+                        type=float,
                         choices=range(0, 101),
+                        default=100,
                         metavar='[0-100]',
                         help='LED Brightness level, as a percentage')
     parser.add_argument('--force-simulation',
@@ -111,7 +110,7 @@ def vid2led():
                         serpentine=args.serpentine, vertical=args.vertical,
                         simulated=args.force_simulation or not util.is_raspberrypi(),
                         simulation_magnifier=args.simulation_magnification,
-                        led_brightness=args.brightness)
+                        led_brightness=int((args.brightness/100)*255))
 
     """
     Translate the Videos
@@ -185,24 +184,7 @@ def vid2led():
 
         # get out of the loop if the user didn't set "--loop"
         if not args.loop:
-            mat.clear()
             break
 
     # clear the matrix
     mat.clear()
-
-
-def main():
-    try:
-        vid2led()
-    except KeyboardInterrupt:
-        print("Quitting vid2led...", end='')
-        cv2.destroyAllWindows()
-        print("done.")
-    except Exception:
-        traceback.print_exc(file=sys.stdout)
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()
