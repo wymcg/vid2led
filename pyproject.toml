@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vid2led"
-version = "0.1.2"
+version = "0.1.3"
 description = "Command line tool to play videos on WS281x LED matrices"
 authors = [
     {name = "Will McGloughlin"}
