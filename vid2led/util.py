@@ -35,8 +35,6 @@ def generate_coordinate_table(width, height, serpentine=False, vertical=False, f
                     # every other column of serpentine matrices are like this
                     table[(x, y)] = (x * height) + (height - y - 1)
 
-    print(table)
-
     # flip the coordinate set if requested
     if flip_horizontal:
         # make a set to hold the coordinates we've already flipped
@@ -55,8 +53,6 @@ def generate_coordinate_table(width, height, serpentine=False, vertical=False, f
                 swapped_coords.add(swap_coord)
 
 
-    print()
-    print(table)
     return table
 
 
