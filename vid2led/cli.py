@@ -64,6 +64,9 @@ def main():
                         type=int,
                         default=10,
                         help='Change the amount that the matrix simulation is magnified')
+    parser.add_argument('--flip-horizontal',
+                        action='store_true',
+                        help='Flip the matrix horizontally')
 
     # parse the arguments
     args = parser.parse_args()
