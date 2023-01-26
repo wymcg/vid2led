@@ -25,7 +25,9 @@ class Matrix:
 
         # make the coordinate table
         self.coordinates = util.generate_coordinate_table(width, height,
-                                                          serpentine=self.serpentine, vertical=self.vertical)
+                                                          serpentine=self.serpentine,
+                                                          vertical=self.vertical,
+                                                          flip_horizontal=self.flip_horizontal)
 
         # setup the led strip
         self.strip = PixelStrip(self.width * self.height,
