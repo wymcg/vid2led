@@ -30,7 +30,7 @@ class Matrix:
                                                           flip_horizontal=self.flip_horizontal)
 
         # setup the led strip
-        if self.simulated:
+        if not self.simulated:
             self.strip = PixelStrip(self.width * self.height,
                                     led_pin,
                                     led_freq_hz,
