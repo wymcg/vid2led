@@ -63,6 +63,7 @@ class Matrix:
             cv2.imshow(f'Simulated {self.width}x{self.height} Matrix', img)
 
     def clear(self):
-        for i in range(0, self.width*self.height):
-            self.strip.setPixelColorRGB(i, 0, 0, 0);
-        self.strip.show()
+        if not self.simulated:
+            for i in range(0, self.width*self.height):
+                self.strip.setPixelColorRGB(i, 0, 0, 0);
+            self.strip.show()
