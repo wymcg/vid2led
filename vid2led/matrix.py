@@ -30,15 +30,16 @@ class Matrix:
                                                           flip_horizontal=self.flip_horizontal)
 
         # setup the led strip
-        self.strip = PixelStrip(self.width * self.height,
-                                led_pin,
-                                led_freq_hz,
-                                led_dma,
-                                led_invert,
-                                led_brightness,
-                                led_channel,
-                                strip_type=led_strip_type)
-        self.strip.begin()
+        if not self.simulated:
+            self.strip = PixelStrip(self.width * self.height,
+                                    led_pin,
+                                    led_freq_hz,
+                                    led_dma,
+                                    led_invert,
+                                    led_brightness,
+                                    led_channel,
+                                    strip_type=led_strip_type)
+            self.strip.begin()
 
     def display(self, frame):
         if not self.simulated:
@@ -62,6 +63,7 @@ class Matrix:
             cv2.imshow(f'Simulated {self.width}x{self.height} Matrix', img)
 
     def clear(self):
-        for i in range(0, self.width*self.height):
-            self.strip.setPixelColorRGB(i, 0, 0, 0);
-        self.strip.show()
+        if not self.simulated:
+            for i in range(0, self.width*self.height):
+                self.strip.setPixelColorRGB(i, 0, 0, 0)
+            self.strip.show()
