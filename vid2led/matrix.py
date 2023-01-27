@@ -65,5 +65,5 @@ class Matrix:
     def clear(self):
         if not self.simulated:
             for i in range(0, self.width*self.height):
-                self.strip.setPixelColorRGB(i, 0, 0, 0);
+                self.strip.setPixelColorRGB(i, 0, 0, 0)
             self.strip.show()
