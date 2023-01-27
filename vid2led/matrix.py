@@ -8,12 +8,14 @@ class Matrix:
                  serpentine=False, vertical=False,
                  led_freq_hz=800_000, led_dma=10, led_brightness=255,
                  led_invert=False, led_channel=0, led_strip_type=None,
-                 simulated=False, simulation_magnifier=10):
+                 simulated=False, simulation_magnifier=10,
+                 flip_horizontal=False):
         # setup some vars
         self.width = width
         self.height = height
         self.serpentine = serpentine
         self.vertical = vertical
+        self.flip_horizontal = flip_horizontal
 
         # is this a simulated matrix?
         self.simulated = simulated
@@ -23,7 +25,9 @@ class Matrix:
 
         # make the coordinate table
         self.coordinates = util.generate_coordinate_table(width, height,
-                                                          serpentine=self.serpentine, vertical=self.vertical)
+                                                          serpentine=self.serpentine,
+                                                          vertical=self.vertical,
+                                                          flip_horizontal=self.flip_horizontal)
 
         # setup the led strip
         self.strip = PixelStrip(self.width * self.height,

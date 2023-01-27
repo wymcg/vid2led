@@ -5,7 +5,7 @@ Make a coordinate table for a matrix
 """
 
 
-def generate_coordinate_table(width, height, serpentine=False, vertical=False):
+def generate_coordinate_table(width, height, serpentine=False, vertical=False, flip_horizontal=False):
     table = {}
 
     if not vertical:
@@ -34,6 +34,24 @@ def generate_coordinate_table(width, height, serpentine=False, vertical=False):
                     # flipped orientation row (vertical)
                     # every other column of serpentine matrices are like this
                     table[(x, y)] = (x * height) + (height - y - 1)
+
+    # flip the coordinate set if requested
+    if flip_horizontal:
+        # make a set to hold the coordinates we've already flipped
+        swapped_coords = set()
+
+        # iterate through all keys
+        for coord in table.keys():
+            if coord not in swapped_coords:
+                swap_coord = (width - coord[0] - 1, coord[1])
+
+                # swap the coords
+                table[coord], table[swap_coord] = table[swap_coord], table[coord]
+
+                # mark both coords
+                swapped_coords.add(coord)
+                swapped_coords.add(swap_coord)
+
 
     return table
 
