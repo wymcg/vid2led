@@ -7,7 +7,7 @@ license = "LICENSE"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.7"
 opencv-python = "^4.7.0.68"
 rpi-ws281x = {version = "^4.3.4", platform = "linux"}
 rpi-ws281x-mock = {version = "^0.2.2", platform = "win32"}
