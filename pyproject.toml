@@ -9,8 +9,12 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.7"
 opencv-python = "^4.7.0.68"
-rpi-ws281x = {version = "^4.3.4", platform = "linux"}
-rpi-ws281x-mock = {version = "^0.2.2", platform = "win32"}
+rpi-ws281x = { version = "^4.3.4", platform = "linux", markers = "platform_machine == 'arm64' or platform_machine == 'arm32'" }
+rpi-ws281x-mock = [
+  { version = "^0.2.2", platform = "win32" },
+  { version = "^0.2.2", platform = "darwin" },
+  { version = "^0.2.2", platform = "linux" },
+]
 
 [tool.poetry.scripts]
 vid2led = "vid2led.cli:main"
