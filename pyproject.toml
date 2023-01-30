@@ -13,7 +13,7 @@ rpi-ws281x = { version = "^4.3.4", platform = "linux", markers = "platform_machi
 rpi-ws281x-mock = [
   { version = "^0.2.2", platform = "win32" },
   { version = "^0.2.2", platform = "darwin" },
-  { version = "^0.2.2", platform = "linux", markers = "platform_machine == 'amd64'" },
+  { version = "^0.2.2", platform = "linux" },
 ]
 
 [tool.poetry.scripts]
