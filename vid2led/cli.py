@@ -128,6 +128,7 @@ def main():
         while True:
             # iterate through the list of videos
             for video_path in video_paths:
+
                 # open the video file
                 video = cv2.VideoCapture(video_path)
 
@@ -137,18 +138,23 @@ def main():
 
                 # get the ms per frame for this video
                 source_ms_per_frame = int(1000.0 / framerate)
-                real_ms_per_frame = max(int(1000.0 / args.fps), source_ms_per_frame)
+                attempt_ms_per_frame = max(int(1000.0 / args.fps), source_ms_per_frame)
                 if args.debug:
                     print(
-                        f"[DEBUG][{video_path}]: Source Framerate:{framerate}fps // Limiter:{args.fps}fps // Real Framerate:{int((1 / real_ms_per_frame) * 1000.0)}fps")
+                        f"[DEBUG][{video_path}]: " \
+                        f"Source Framerate:{framerate}fps //" \
+                        f"Limiter:{args.fps}fps //" \
+                        f"Attempted Framerate:{int((1 / attempt_ms_per_frame) * 1000.0)}fps // ",
+                        end='') # no newline because we will print the average fps later
 
                 # set the initial times
                 time_at_last_frame_fetch = time.time_ns()
                 time_at_last_frame_used = time.time_ns()
 
-                # set a placeholder for later
-                ret = None
-                frame = None
+                # set placeholders for later
+                ret = None                  # flag for if a frame was successfully fetched
+                frame = None                # the frame that was just fetched
+                times_between_frames = []   # the times between frames for this video
 
                 while True:
                     # calculate elapsed time
@@ -164,19 +170,22 @@ def main():
                         time_at_last_frame_fetch = time.time_ns()
 
                     # skip this frame if we've used a frame recently enough
-                    if elapsed_ms_used < real_ms_per_frame:
+                    if elapsed_ms_used < attempt_ms_per_frame:
                         continue
 
                     # use the frame if a frame was fetched
                     if ret:
-                        # reset the time at last frame use
-                        time_at_last_frame_used = time.time_ns()
-
                         # resize the frame
                         img = cv2.resize(frame, (args.width, args.height))
 
                         # display the frame on the matrix
                         mat.display(img)
+
+                        # add the elapsed time since the last frame was used to the frame times
+                        times_between_frames.append(time.time_ns() - time_at_last_frame_used)
+
+                        # reset the time at last frame use
+                        time_at_last_frame_used = time.time_ns()
 
                         # wait for cv2
                         cv2.waitKey(1)
@@ -186,9 +195,18 @@ def main():
                             f"Error reading frame from '{video_path}'! Skipping the rest of this video..."
                         break
 
+
                 # cleanup opencv
                 video.release()
                 cv2.destroyAllWindows()
+
+                # calculate the actual average fps for this video
+                average_frame_time_ns = sum(times_between_frames) / len(times_between_frames)
+                average_fps = 1_000_000_000.0 / average_frame_time_ns
+
+                # print the actual average fps if we're in debug mode
+                if args.debug:
+                    print(f'Actual FPS: {average_fps:.2f}')
 
             # get out of the loop if the user didn't set "--loop"
             if not args.loop:
