@@ -7,6 +7,7 @@ import cv2
 
 from vid2led import matrix, util
 
+
 def main():
     # make placeholder for matrix
     mat = None
@@ -117,7 +118,7 @@ def main():
                             serpentine=args.serpentine, vertical=args.vertical,
                             simulated=args.force_simulation or not util.is_raspberrypi(),
                             simulation_magnifier=args.simulation_magnification,
-                            led_brightness=int((args.brightness/100)*255),
+                            led_brightness=int((args.brightness / 100) * 255),
                             flip_horizontal=args.flip_horizontal)
 
         """
@@ -128,6 +129,10 @@ def main():
         while True:
             # iterate through the list of videos
             for video_path in video_paths:
+
+                # vars for average fps calculation
+                n_displayed_frames = 0
+                average_frametime = 0
 
                 # open the video file
                 video = cv2.VideoCapture(video_path)
@@ -145,16 +150,15 @@ def main():
                         f"Source Framerate:{framerate}fps //" \
                         f"Limiter:{args.fps}fps //" \
                         f"Attempted Framerate:{int((1 / attempt_ms_per_frame) * 1000.0)}fps // ",
-                        end='') # no newline because we will print the average fps later
+                        end='')  # no newline because we will print the average fps later
 
                 # set the initial times
                 time_at_last_frame_fetch = time.time_ns()
                 time_at_last_frame_used = time.time_ns()
 
                 # set placeholders for later
-                ret = None                  # flag for if a frame was successfully fetched
-                frame = None                # the frame that was just fetched
-                times_between_frames = []   # the times between frames for this video
+                ret = None  # flag for if a frame was successfully fetched
+                frame = None  # the frame that was just fetched
 
                 while True:
                     # calculate elapsed time
@@ -181,8 +185,14 @@ def main():
                         # display the frame on the matrix
                         mat.display(img)
 
-                        # add the elapsed time since the last frame was used to the frame times
-                        times_between_frames.append(time.time_ns() - time_at_last_frame_used)
+                        # update the displayed frames counter for this video
+                        n_displayed_frames += 1
+
+                        # update the average frame rate based on the old frame rate
+                        average_frametime = (
+                                              ((n_displayed_frames - 1) * average_frametime)
+                                              + (time.time_ns() - time_at_last_frame_used)
+                                      ) / n_displayed_frames
 
                         # reset the time at last frame use
                         time_at_last_frame_used = time.time_ns()
@@ -195,14 +205,11 @@ def main():
                             f"Error reading frame from '{video_path}'! Skipping the rest of this video..."
                         break
 
-
                 # cleanup opencv
                 video.release()
                 cv2.destroyAllWindows()
 
-                # calculate the actual average fps for this video
-                average_frame_time_ns = sum(times_between_frames) / len(times_between_frames)
-                average_fps = 1_000_000_000.0 / average_frame_time_ns
+                average_fps = 1 / (average_frametime * (10**-9))
 
                 # print the actual average fps if we're in debug mode
                 if args.debug:
